@@ -96,7 +96,7 @@ const CallToAction = ({ finalMessage, switchNumber, ageAnswer, insuredAnswer }) 
           qualified on the call by a licensed agent in minutes 👇
         </p>
       </motion.div>
-+16197753027
+
       <motion.a
         href={switchNumber ? 'tel:+16197753027': 'tel:+16197753027'}
         className="mt-4 bg-green-500 text-white text-xl font-bold py-4 px-8 rounded-md w-full max-w-md text-center transition hover:bg-green-600 relative overflow-hidden"
