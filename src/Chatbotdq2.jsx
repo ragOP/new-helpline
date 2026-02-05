@@ -44,7 +44,7 @@ export default function Chatbot() {
       {
         text: "Tap 'Yes' to get started! ⬇️",
         sender: "bot",
-        options: ["👉 Yes! Show me how to claim!"],
+        options: ["👉 Yes, Reduce My Rate!"],
         time: new Date().toTimeString(),
       },
     ];
@@ -94,7 +94,7 @@ export default function Chatbot() {
       setQuestionNumber(1);
       botResponses = [
         {
-          text: "Awesome! Let's get you the benefit ASAP. I just need to ask you a couple of quick questions.",
+          text: "Awesome! Let's get you the best rate ASAP. I just need to ask you a couple of quick questions.",
           sender: "bot",
         },
         {
@@ -132,7 +132,7 @@ export default function Chatbot() {
     else if (questionNumber === 3) {
       botResponses = [
         {
-          text: "🎉 Fantastic news! You're one step away from securing lower rate",
+          text: "🎉 Fantastic news - You're just one step away from securing lower rate!",
           sender: "bot",
         },
         {
