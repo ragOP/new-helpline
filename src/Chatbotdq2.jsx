@@ -20,7 +20,8 @@ export default function Chatbot() {
   const [showInput, setShowInput] = useState(false);
   const [currentOptions, setCurrentOptions] = useState([]);
   const [finalMessage, setFinalMessage] = useState(false);
-  const [switchNumber, setSwitchNumber] = useState(false);
+  const switchNumber = false;
+  const [questionNumber, setQuestionNumber] = useState(0);
   const messagesEndRef = useRef(null);
 
   const getFormattedTime = (timeString) => {
@@ -86,7 +87,9 @@ export default function Chatbot() {
     setCurrentOptions([]);
     let botResponses = [];
 
+    // Question 0: Initial start
     if (option === "👉 Yes! Show me how to claim!") {
+      setQuestionNumber(1);
       botResponses = [
         {
           text: "Awesome! Let's get you the benefit ASAP. I just need to ask you a couple of quick questions.",
@@ -98,105 +101,38 @@ export default function Chatbot() {
           options: ["Yes, I am under 65", "No, I am over 65"],
         },
       ];
-    } else if (
-      option === "Yes, I am under 65"
-    ) {
+    }
+    // Question 1: Age question - any answer goes to Question 2
+    else if (questionNumber === 1) {
+      setQuestionNumber(2);
       botResponses = [
         {
           text: "Are you currently insured?",
           sender: "bot",
-          options: ["Yes ", "No "],
-        },
-      ];
-    }else if (
-      option === "No, I am over 65"
-    ) {
-      botResponses = [
-        {
-          text: "Unfortunately, you don’t qualify for this Spending Allowance.",
-          sender: "bot",
-        },
-        {
-          text: "BUT, based on what you’ve told me, I see you qualify for a Food Allowance Card worth thousands of dollars!",
-          sender: "bot",
-        },
-        {
-          text: "Are you interested in claiming it?",
-          sender: "bot",
-          options: [" Yes", " No"],
+          options: ["Yes", "No"],
         },
       ];
     }
-    else if (option === "Yes " || option === "No ") {
+    // Question 2: Insured question - any answer goes to Question 3
+    else if (questionNumber === 2) {
+      setQuestionNumber(3);
       botResponses = [
         {
           text: "Do you pay more than $100/month for your current auto insurance plan?",
           sender: "bot",
-          options: ["  Yes", "No"],
-        },
-      ];
-    }else if (option === " Yes") {
-      botResponses = [
-        {
-          text: "Great, I’ve qualified you for the Food Allowance Card, worth thousands of dollars a year.",
-          sender: "bot",
-        },
-        {
-          text: "This card can be used at all grocery & medical store across United States.",
-          sender: "bot",
-        },
-      ];
-      setSwitchNumber(true);
-      setTimeout(() => {
-        setFinalMessage(true);
-      }, 4000);
-    }
-    else if (option === "  Yes"){
-    botResponses = [
-      {
-        text: "Unfortunately, you don’t qualify for this Spending Allowance.",
-        sender: "bot",
-      },
-      {
-        text: "BUT, based on what you’ve told me, I see you qualify for a Free $1250 Stimulus Check From Gov!",
-        sender: "bot",
-      },
-      {
-        text: "Are you interested in claiming it?",
-        sender: "bot",
-        options: ["Yes, I want to claim!", "No, I’ll skip."],
-      },
-   
-    ];
-    }
-
-    if (option === "Yes, I want to claim!" || option === "No, I’ll skip.") {
-      botResponses = [
-        {
-          text: "Redirecting you now...",
-          sender: "bot",
-        },
-      ];
-      setTimeout(() => {
-        window.location.href = "https://glstrck.com/aff_c?offer_id=1421&aff_id=2065";
-      }, 2000);
-    }
-    else if (option === " No"){
-      botResponses = [
-        {
-          text: "Sorry you don’t qualify",
-          sender: "bot",
+          options: ["Yes", "No"],
         },
       ];
     }
-    else if (option === "Yes" || option === "No") {
+    // Question 3: Payment question - any answer shows congrats
+    else if (questionNumber === 3) {
       botResponses = [
         {
           text: "🎉 Fantastic news! You're one step away from securing lower rate",
           sender: "bot",
         },
         {
-          text: "Based on what you've told me, you’re eligible for a reduction on your Auto Insurance Rate!",
+          text: "Based on what you've told me, you're eligible for a reduction on your Auto Insurance Rate!",
           sender: "bot",
         },
       ];
@@ -204,6 +140,7 @@ export default function Chatbot() {
         setFinalMessage(true);
       }, 4000);
     }
+
     addMessagesWithDelay(botResponses);
   };
 
