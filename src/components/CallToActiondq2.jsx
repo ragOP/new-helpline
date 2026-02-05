@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const CallToAction = ({ finalMessage, switchNumber }) => {
+const CallToAction = ({ finalMessage, switchNumber, ageAnswer, insuredAnswer }) => {
   const [time, setTime] = useState(180);
 
   useEffect(() => {
@@ -14,6 +14,63 @@ const CallToAction = ({ finalMessage, switchNumber }) => {
       return () => clearInterval(timer);
     }
   }, [time, finalMessage]);
+
+  // Set Ringba tags when component mounts with data
+  useEffect(() => {
+    if (finalMessage && (ageAnswer || insuredAnswer)) {
+      // Wait for Ringba to be available
+      const setRingbaTags = () => {
+        if (window.Ringba) {
+          // Set age tag
+          if (ageAnswer) {
+            const ageValue = ageAnswer.includes("under 65") ? "under_65" : "over_65";
+            if (window.Ringba.setTag) {
+              window.Ringba.setTag("age", ageValue);
+            } else if (window.Ringba.addTag) {
+              window.Ringba.addTag("age", ageValue);
+            }
+          }
+          // Set insured tag
+          if (insuredAnswer) {
+            const insuredValue = insuredAnswer === "Yes" ? "yes" : "no";
+            if (window.Ringba.setTag) {
+              window.Ringba.setTag("insured", insuredValue);
+            } else if (window.Ringba.addTag) {
+              window.Ringba.addTag("insured", insuredValue);
+            }
+          }
+        } else {
+          // Retry if Ringba isn't loaded yet
+          setTimeout(setRingbaTags, 100);
+        }
+      };
+      setRingbaTags();
+    }
+  }, [finalMessage, ageAnswer, insuredAnswer]);
+
+  const handleCallClick = () => {
+    // Send tags to Ringba on click as well
+    if (window.Ringba) {
+      // Set age tag
+      if (ageAnswer) {
+        const ageValue = ageAnswer.includes("under 65") ? "under_65" : "over_65";
+        if (window.Ringba.setTag) {
+          window.Ringba.setTag("age", ageValue);
+        } else if (window.Ringba.addTag) {
+          window.Ringba.addTag("age", ageValue);
+        }
+      }
+      // Set insured tag
+      if (insuredAnswer) {
+        const insuredValue = insuredAnswer === "Yes" ? "yes" : "no";
+        if (window.Ringba.setTag) {
+          window.Ringba.setTag("insured", insuredValue);
+        } else if (window.Ringba.addTag) {
+          window.Ringba.addTag("insured", insuredValue);
+        }
+      }
+    }
+  };
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -45,6 +102,7 @@ const CallToAction = ({ finalMessage, switchNumber }) => {
         className="mt-4 bg-green-500 text-white text-xl font-bold py-4 px-8 rounded-md w-full max-w-md text-center transition hover:bg-green-600 relative overflow-hidden"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
+        onClick={handleCallClick}
       >
         <span className="relative z-10">
           {switchNumber ? "CALL (323)-689-7861": "CALL (833)-366-8513"}

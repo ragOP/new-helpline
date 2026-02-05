@@ -22,6 +22,8 @@ export default function Chatbot() {
   const [finalMessage, setFinalMessage] = useState(false);
   const switchNumber = false;
   const [questionNumber, setQuestionNumber] = useState(0);
+  const [ageAnswer, setAgeAnswer] = useState(null);
+  const [insuredAnswer, setInsuredAnswer] = useState(null);
   const messagesEndRef = useRef(null);
 
   const getFormattedTime = (timeString) => {
@@ -104,6 +106,7 @@ export default function Chatbot() {
     }
     // Question 1: Age question - any answer goes to Question 2
     else if (questionNumber === 1) {
+      setAgeAnswer(option);
       setQuestionNumber(2);
       botResponses = [
         {
@@ -115,6 +118,7 @@ export default function Chatbot() {
     }
     // Question 2: Insured question - any answer goes to Question 3
     else if (questionNumber === 2) {
+      setInsuredAnswer(option);
       setQuestionNumber(3);
       botResponses = [
         {
@@ -309,7 +313,7 @@ export default function Chatbot() {
             ))}
           </div>
         )}
-        {finalMessage && <CallToActiondq2 finalMessage={finalMessage} switchNumber={switchNumber}/>}
+        {finalMessage && <CallToActiondq2 finalMessage={finalMessage} switchNumber={switchNumber} ageAnswer={ageAnswer} insuredAnswer={insuredAnswer}/>}
 
         <div ref={messagesEndRef} />
       </div>
