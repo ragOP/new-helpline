@@ -9,6 +9,7 @@ import Chatbotdq2 from './Chatbotdq2';
 import Home from './Home';
 import FastChat from './FastChat';
 import Raghib from './Raghib';
+import QuestionLanding from './QuestionLanding';
 
 const App = () => {
   
@@ -18,6 +19,7 @@ const App = () => {
       <Route path="/" element={<Home />} />
         {/* <Route path="/engsf1" element={<Chatbotdq />} /> */}
         <Route path="/engsfdq" element={<Chatbotdq2 />} />
+        <Route path="/questions" element={<QuestionLanding />} />
         {/* <Route path="/engsf2200" element={<ChatbotTwo />} />
         <Route path="/engsf1dup" element={<Chatbotdq2 />} />
         <Route path="/engsffast" element={<FastChat />} />
