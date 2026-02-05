@@ -34,7 +34,7 @@ export default function Chatbot() {
         sender: "bot",
       },
       {
-        text: "Emily this side. Let’s find out if you qualify for the $5800 Spending Allowance — it’s quick and only takes 2 minutes!",
+        text: "Emily this side. Let’s find out if you qualify for reduction on your Auto Insurance Rate — it’s quick and only takes 2 minutes!",
         sender: "bot",
         time: new Date().toTimeString(),
       },
@@ -103,7 +103,7 @@ export default function Chatbot() {
     ) {
       botResponses = [
         {
-          text: "Do you live in the United States?",
+          text: "Are you currently insured?",
           sender: "bot",
           options: ["Yes ", "No "],
         },
@@ -130,7 +130,7 @@ export default function Chatbot() {
     else if (option === "Yes " || option === "No ") {
       botResponses = [
         {
-          text: "Are you on Medicare or Medicaid?",
+          text: "Do you pay more than $100/month for your current auto insurance plan?",
           sender: "bot",
           options: ["  Yes", "No"],
         },
@@ -192,11 +192,11 @@ export default function Chatbot() {
     else if (option === "Yes" || option === "No") {
       botResponses = [
         {
-          text: "🎉 Fantastic news! You're one step away from securing your benefit",
+          text: "🎉 Fantastic news! You're one step away from securing lower rate",
           sender: "bot",
         },
         {
-          text: "Based on what you've told me, you’re eligible for the $5800 Spending Allowance!",
+          text: "Based on what you've told me, you’re eligible for a reduction on your Auto Insurance Rate!",
           sender: "bot",
         },
       ];
@@ -258,7 +258,7 @@ export default function Chatbot() {
         <div className="flex items-center justify-between w-full">
           <div>
             <div className="flex items-center gap-3">
-              <p className="font-bold text-sm">Live Benefit Helpline</p>
+              <p className="font-bold text-sm">Auto Benefit Helpline</p>
               <img src={tick} className="w-4 h-4"  style={{marginLeft:"-6px"}}/>
             </div>
             <p className="text-sm ">online</p>
