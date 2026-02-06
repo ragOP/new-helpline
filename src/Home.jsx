@@ -144,9 +144,7 @@ const Home = () => {
       >
         <div className="max-w-4xl mx-auto text-center">
           <h3 className="text-4xl font-bold mb-4">    Ready to Claim Your Lower Rate?</h3>
-          <p className="text-xl mb-8 text-gray-100">
-          Ready to Claim Your Lower Rate?
-          </p>
+        
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
