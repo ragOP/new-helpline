@@ -325,7 +325,7 @@ export default function Chatbot() {
         )}
 
         {finalMessage && (
-          <CallToActiondq2
+          <CallToActiondq2Fast
             finalMessage={finalMessage}
             switchNumber={switchNumber}
             ageAnswer={ageAnswer}
