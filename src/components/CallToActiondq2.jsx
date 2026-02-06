@@ -15,139 +15,90 @@ const CallToAction = ({ finalMessage, switchNumber, ageAnswer, insuredAnswer }) 
     }
   }, [time, finalMessage]);
 
+  // Helper function to set Ringba tags
+  const setRingbaTags = (ageVal, insuredVal) => {
+    // Initialize Ringba queue if it doesn't exist (for async loading)
+    if (!window.Ringba) {
+      window.Ringba = window.Ringba || [];
+    }
+
+    // If Ringba is an array (queue pattern), push commands
+    if (Array.isArray(window.Ringba)) {
+      if (ageVal) {
+        window.Ringba.push(["setTag", "age", ageVal]);
+        console.log("✓ Age tag queued:", ageVal);
+      }
+      if (insuredVal) {
+        window.Ringba.push(["setTag", "insured", insuredVal]);
+        console.log("✓ Insured tag queued:", insuredVal);
+      }
+    } 
+    // If Ringba is loaded and has setTag method
+    else if (window.Ringba.setTag) {
+      if (ageVal) {
+        window.Ringba.setTag("age", ageVal);
+        console.log("✓ Age tag set:", ageVal);
+      }
+      if (insuredVal) {
+        window.Ringba.setTag("insured", insuredVal);
+        console.log("✓ Insured tag set:", insuredVal);
+      }
+    }
+    // Fallback: try addTag
+    else if (window.Ringba.addTag) {
+      if (ageVal) {
+        window.Ringba.addTag("age", ageVal);
+        console.log("✓ Age tag added:", ageVal);
+      }
+      if (insuredVal) {
+        window.Ringba.addTag("insured", insuredVal);
+        console.log("✓ Insured tag added:", insuredVal);
+      }
+    }
+  };
+
   // Set Ringba tags when component mounts with data
   useEffect(() => {
     if (finalMessage && (ageAnswer || insuredAnswer)) {
-      // Wait for Ringba to be available
-      let retryCount = 0;
-      const maxRetries = 50; // Try for up to 5 seconds
+      const ageValue = ageAnswer ? (ageAnswer.includes("under 65") ? "yes" : "no") : null;
+      const insuredValue = insuredAnswer ? (insuredAnswer === "Yes" ? "yes" : "no") : null;
       
-      const setRingbaTags = () => {
-        if (window.Ringba) {
-          console.log("Ringba found, setting tags...", { ageAnswer, insuredAnswer });
-          
-          // Set age tag
-          if (ageAnswer) {
-            const ageValue = ageAnswer.includes("under 65") ? "yes" : "no";
-            console.log("Setting age tag:", ageValue);
-            
-            // Try multiple Ringba API methods
-            if (window.Ringba.setTag) {
-              window.Ringba.setTag("age", ageValue);
-              console.log("✓ Age tag set via setTag:", ageValue);
-            } else if (window.Ringba.addTag) {
-              window.Ringba.addTag("age", ageValue);
-              console.log("✓ Age tag set via addTag:", ageValue);
-            } else if (window.Ringba.push) {
-              window.Ringba.push(["setTag", "age", ageValue]);
-              console.log("✓ Age tag set via push:", ageValue);
-            }
-            
-            // Also try setting directly on the Ringba object
-            if (window.Ringba.tags) {
-              window.Ringba.tags = window.Ringba.tags || {};
-              window.Ringba.tags.age = ageValue;
-              console.log("✓ Age tag set directly on tags object:", ageValue);
-            }
-          }
-          
-          // Set insured tag
-          if (insuredAnswer) {
-            const insuredValue = insuredAnswer === "Yes" ? "yes" : "no";
-            console.log("Setting insured tag:", insuredValue);
-            
-            // Try multiple Ringba API methods
-            if (window.Ringba.setTag) {
-              window.Ringba.setTag("insured", insuredValue);
-              console.log("✓ Insured tag set via setTag:", insuredValue);
-            } else if (window.Ringba.addTag) {
-              window.Ringba.addTag("insured", insuredValue);
-              console.log("✓ Insured tag set via addTag:", insuredValue);
-            } else if (window.Ringba.push) {
-              window.Ringba.push(["setTag", "insured", insuredValue]);
-              console.log("✓ Insured tag set via push:", insuredValue);
-            }
-            
-            // Also try setting directly on the Ringba object
-            if (window.Ringba.tags) {
-              window.Ringba.tags = window.Ringba.tags || {};
-              window.Ringba.tags.insured = insuredValue;
-              console.log("✓ Insured tag set directly on tags object:", insuredValue);
-            }
-          }
-          
-          // Verify tags were set
-          console.log("Ringba object:", window.Ringba);
-          console.log("Ringba tags:", window.Ringba.tags);
-        } else {
-          retryCount++;
-          if (retryCount < maxRetries) {
-            // Retry if Ringba isn't loaded yet
-            setTimeout(setRingbaTags, 100);
-          } else {
-            console.error("Ringba not found after", maxRetries, "retries");
-          }
+      console.log("Setting Ringba tags...", { ageAnswer, insuredAnswer, ageValue, insuredValue });
+      
+      // Try to set tags immediately
+      setRingbaTags(ageValue, insuredValue);
+      
+      // Retry mechanism in case Ringba hasn't loaded yet
+      let retryCount = 0;
+      const maxRetries = 50;
+      const retryInterval = setInterval(() => {
+        retryCount++;
+        if (window.Ringba && !Array.isArray(window.Ringba)) {
+          // Ringba is loaded, set tags again to be sure
+          setRingbaTags(ageValue, insuredValue);
+          clearInterval(retryInterval);
+        } else if (retryCount >= maxRetries) {
+          console.warn("Ringba not fully loaded after", maxRetries, "retries, but tags may be queued");
+          clearInterval(retryInterval);
         }
-      };
-      setRingbaTags();
+      }, 100);
+      
+      return () => clearInterval(retryInterval);
     }
   }, [finalMessage, ageAnswer, insuredAnswer]);
 
   const handleCallClick = () => {
-    // Send tags to Ringba on click as well
-    console.log("Call button clicked, setting Ringba tags...", { ageAnswer, insuredAnswer });
+    // Send tags to Ringba on click as well (ensure they're set right before call)
+    console.log("Call button clicked, ensuring Ringba tags are set...", { ageAnswer, insuredAnswer });
     
-    if (window.Ringba) {
-      // Set age tag
-      if (ageAnswer) {
-        const ageValue = ageAnswer.includes("under 65") ? "yes" : "no";
-        console.log("Setting age tag on click:", ageValue);
-        
-        if (window.Ringba.setTag) {
-          window.Ringba.setTag("age", ageValue);
-          console.log("✓ Age tag set via setTag on click:", ageValue);
-        } else if (window.Ringba.addTag) {
-          window.Ringba.addTag("age", ageValue);
-          console.log("✓ Age tag set via addTag on click:", ageValue);
-        } else if (window.Ringba.push) {
-          window.Ringba.push(["setTag", "age", ageValue]);
-          console.log("✓ Age tag set via push on click:", ageValue);
-        }
-        
-        if (window.Ringba.tags) {
-          window.Ringba.tags = window.Ringba.tags || {};
-          window.Ringba.tags.age = ageValue;
-          console.log("✓ Age tag set directly on tags object on click:", ageValue);
-        }
-      }
-      
-      // Set insured tag
-      if (insuredAnswer) {
-        const insuredValue = insuredAnswer === "Yes" ? "yes" : "no";
-        console.log("Setting insured tag on click:", insuredValue);
-        
-        if (window.Ringba.setTag) {
-          window.Ringba.setTag("insured", insuredValue);
-          console.log("✓ Insured tag set via setTag on click:", insuredValue);
-        } else if (window.Ringba.addTag) {
-          window.Ringba.addTag("insured", insuredValue);
-          console.log("✓ Insured tag set via addTag on click:", insuredValue);
-        } else if (window.Ringba.push) {
-          window.Ringba.push(["setTag", "insured", insuredValue]);
-          console.log("✓ Insured tag set via push on click:", insuredValue);
-        }
-        
-        if (window.Ringba.tags) {
-          window.Ringba.tags = window.Ringba.tags || {};
-          window.Ringba.tags.insured = insuredValue;
-          console.log("✓ Insured tag set directly on tags object on click:", insuredValue);
-        }
-      }
-      
-      // Verify tags
-      console.log("Ringba tags after click:", window.Ringba.tags);
-    } else {
-      console.error("Ringba not available on call click");
+    const ageValue = ageAnswer ? (ageAnswer.includes("under 65") ? "yes" : "no") : null;
+    const insuredValue = insuredAnswer ? (insuredAnswer === "Yes" ? "yes" : "no") : null;
+    
+    setRingbaTags(ageValue, insuredValue);
+    
+    // Verify tags
+    if (window.Ringba && !Array.isArray(window.Ringba)) {
+      console.log("Ringba object after click:", window.Ringba);
     }
   };
 
