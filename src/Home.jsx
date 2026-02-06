@@ -44,21 +44,7 @@ const Home = () => {
         transition={{ duration: 0.8 }}
         className="bg-gradient-to-r from-[#005e54] to-[#007a6e] text-white py-20 px-4 sm:px-6 lg:px-8"
       >
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl sm:text-6xl font-bold mb-6">
-            Claim Your $5800 Spending Allowance Today!
-          </h2>
-          <p className="text-xl mb-4 text-gray-100">
-            It takes just 2 minutes to qualify. Get the financial support you deserve.
-          </p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-white text-[#005e54] px-10 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition"
-          >
-            Check Your Eligibility →
-          </motion.button>
-        </div>
+      
       </motion.section>
 
       {/* Benefits Section */}
@@ -69,60 +55,7 @@ const Home = () => {
         viewport={{ once: true, margin: '-100px' }}
         className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50"
       >
-        <div className="max-w-6xl mx-auto">
-          <h3 className="text-4xl font-bold text-center mb-16 text-gray-900">
-            What You Can Get
-          </h3>
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Spending Allowance */}
-            <motion.div
-              variants={itemVariants}
-              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <DollarSign className="w-12 h-12 text-[#005e54]" />
-                <h4 className="text-2xl font-bold text-gray-900">$5800 Spending Allowance</h4>
-              </div>
-              <p className="text-gray-600 mb-4">
-                Qualified individuals under 65 can claim up to $5800 in annual spending support.
-              </p>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-2 text-gray-700">
-                  <Check className="w-5 h-5 text-green-500" />
-                  Quick qualification process
-                </li>
-                <li className="flex items-center gap-2 text-gray-700">
-                  <Check className="w-5 h-5 text-green-500" />
-                  No hidden requirements
-                </li>
-              </ul>
-            </motion.div>
-
-            {/* Food Allowance Card */}
-            <motion.div
-              variants={itemVariants}
-              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <ShoppingCart className="w-12 h-12 text-[#005e54]" />
-                <h4 className="text-2xl font-bold text-gray-900">Food Allowance Card</h4>
-              </div>
-              <p className="text-gray-600 mb-4">
-                Access thousands of dollars yearly for groceries and medical essentials.
-              </p>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-2 text-gray-700">
-                  <Check className="w-5 h-5 text-green-500" />
-                  Valid nationwide
-                </li>
-                <li className="flex items-center gap-2 text-gray-700">
-                  <Check className="w-5 h-5 text-green-500" />
-                  All grocery & medical stores
-                </li>
-              </ul>
-            </motion.div>
-          </div>
-        </div>
+      
       </motion.section>
 
       {/* How It Works */}
@@ -179,31 +112,7 @@ const Home = () => {
         viewport={{ once: true, margin: '-100px' }}
         className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50"
       >
-        <div className="max-w-4xl mx-auto">
-          <h3 className="text-4xl font-bold text-center mb-16 text-gray-900">
-            Check Your Eligibility
-          </h3>
-          <div className="bg-white p-8 rounded-xl shadow-lg">
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <Check className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
-                <span className="text-gray-700">Must be under 65 years old (for Spending Allowance)</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
-                <span className="text-gray-700">Must be a United States resident</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
-                <span className="text-gray-700">Qualifications vary based on Medicare/Medicaid status</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
-                <span className="text-gray-700">Food Allowance available to other age groups</span>
-              </li>
-            </ul>
-          </div>
-        </div>
+      
       </motion.section>
 
       {/* CTA Section */}
