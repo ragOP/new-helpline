@@ -29,7 +29,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src={agent} alt="Live Benefit" className="w-10 h-10 rounded-full" />
-            <h1 className="text-2xl font-bold">Live Benefit Helpline</h1>
+            <h1 className="text-2xl font-bold">Auto Benefit Helpline</h1>
           </div>
           <button className="bg-white text-[#005e54] px-6 py-2 rounded-lg font-bold hover:bg-gray-100 transition">
             Get Started
@@ -160,7 +160,7 @@ const Home = () => {
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto text-center">
-          <p className="mb-2">&copy; 2026 Live Benefit Helpline. All rights reserved.</p>
+          <p className="mb-2">&copy; 2026 Auto Benefit Helpline. All rights reserved.</p>
           <p className="text-sm text-gray-500">
             Not affiliated with any government agency. Information for eligibility purposes only.
           </p>
