@@ -194,8 +194,7 @@ export default function Chatbot() {
     <div
       className="w-full h-screen flex flex-col bg-cover bg-center"
       style={{
-        backgroundImage:
-          "url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')",
+        backgroundImage: "url('../wall.png')",
       }}
     >
       <div className="bg-[#005e54] text-white p-4 flex items-center gap-2 shadow-md sticky top-0 right-0 left-0 z-10 h-16">
