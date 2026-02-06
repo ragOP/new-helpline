@@ -74,7 +74,7 @@ export default function Chatbot() {
   };
 
   const handleOptionClick = (option) => {
-    if (option === "👉 Yes! Show me how to claim!") {
+    if (option === "👉 Yes, Reduce My Rate!") {
       setMessages((prev) => [
         ...prev,
         { text: "Yes", sender: "user", time: new Date().toTimeString() },
@@ -90,7 +90,7 @@ export default function Chatbot() {
     let botResponses = [];
 
     // Question 0: Initial start
-    if (option === "👉 Yes! Show me how to claim!") {
+    if (option === "👉 Yes, Reduce My Rate!") {
       setQuestionNumber(1);
       botResponses = [
         {
