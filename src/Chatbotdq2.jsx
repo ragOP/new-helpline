@@ -106,6 +106,7 @@ export default function Chatbot() {
     }
     // Question 1: Age question - any answer goes to Question 2
     else if (questionNumber === 1) {
+      console.log("Setting ageAnswer:", option);
       setAgeAnswer(option);
       setQuestionNumber(2);
       botResponses = [
@@ -118,6 +119,7 @@ export default function Chatbot() {
     }
     // Question 2: Insured question - any answer goes to Question 3
     else if (questionNumber === 2) {
+      console.log("Setting insuredAnswer:", option);
       setInsuredAnswer(option);
       setQuestionNumber(3);
       botResponses = [
@@ -180,6 +182,17 @@ export default function Chatbot() {
       }
     }
   }, [messages, finalMessage, isTyping]);
+
+  // Log values when finalMessage is set
+  useEffect(() => {
+    if (finalMessage) {
+      console.log("Final message triggered. Passing to CallToActiondq2:", {
+        ageAnswer,
+        insuredAnswer,
+        finalMessage
+      });
+    }
+  }, [finalMessage, ageAnswer, insuredAnswer]);
   
   
   return (
