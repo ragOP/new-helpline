@@ -116,7 +116,7 @@ const Home = () => {
               </div>
               <h4 className="text-xl font-bold mb-2 text-gray-900">Claim Your Benefits</h4>
               <p className="text-gray-600">
-                Start using your allowance immediately after verification.
+                Claim Your Lower Auto Insurance Rate Today!
               </p>
             </motion.div>
           </div>
@@ -143,7 +143,7 @@ const Home = () => {
         className="bg-gradient-to-r from-[#005e54] to-[#007a6e] text-white py-20 px-4 sm:px-6 lg:px-8"
       >
         <div className="max-w-4xl mx-auto text-center">
-          <h3 className="text-4xl font-bold mb-4">Ready to Claim Your Benefits?</h3>
+          <h3 className="text-4xl font-bold mb-4">    Ready to Claim Your Lower Rate?</h3>
           <p className="text-xl mb-8 text-gray-100">
           Ready to Claim Your Lower Rate?
           </p>
