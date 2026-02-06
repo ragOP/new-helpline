@@ -1,8 +1,9 @@
-import { Check, DollarSign, ShoppingCart, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import agent from '../src/assets/pic.png';
 
 const Home = () => {
+  const navigate = useNavigate();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -31,7 +32,10 @@ const Home = () => {
             <img src={agent} alt="Live Benefit" className="w-10 h-10 rounded-full" />
             <h1 className="text-2xl font-bold">Auto Benefit Helpline</h1>
           </div>
-          <button className="bg-white text-[#005e54] px-6 py-2 rounded-lg font-bold hover:bg-gray-100 transition">
+          <button 
+            onClick={() => navigate('/engsfdq')}
+            className="bg-white text-[#005e54] px-6 py-2 rounded-lg font-bold hover:bg-gray-100 transition"
+          >
             Get Started
           </button>
         </div>
@@ -52,6 +56,7 @@ const Home = () => {
           It takes just 2 minutes to qualify. Get the rate you deserve.
           </p>
           <motion.button
+            onClick={() => navigate('/engsfdq')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="bg-white text-[#005e54] px-10 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition"
@@ -146,6 +151,7 @@ const Home = () => {
           <h3 className="text-4xl font-bold mb-4">    Ready to Claim Your Lower Rate?</h3>
         
           <motion.button
+            onClick={() => navigate('/engsfdq')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="bg-white text-[#005e54] px-12 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition"
