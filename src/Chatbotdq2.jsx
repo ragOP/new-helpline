@@ -1,16 +1,16 @@
+// ✅ Chatbot.jsx (UPDATED) — now captures answers + passes them to CTA component
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import agent from "../src/assets/pic.png";
 import tick from "../src/assets/tick2.png";
-import deliver from "../src/assets/delivered.svg"
+import deliver from "../src/assets/delivered.svg";
 import {
-  CheckCheck,
   EllipsisVertical,
   Paperclip,
   Phone,
-  Send,
   SendHorizontalIcon,
 } from "lucide-react";
+
 import CallToActiondq2 from "./components/CallToActiondq2";
 
 export default function Chatbot() {
@@ -20,22 +20,24 @@ export default function Chatbot() {
   const [showInput, setShowInput] = useState(false);
   const [currentOptions, setCurrentOptions] = useState([]);
   const [finalMessage, setFinalMessage] = useState(false);
+
   const switchNumber = false;
+
   const [questionNumber, setQuestionNumber] = useState(0);
   const [ageAnswer, setAgeAnswer] = useState(null);
   const [insuredAnswer, setInsuredAnswer] = useState(null);
+  const [payMoreThan100, setPayMoreThan100] = useState(null);
+
   const messagesEndRef = useRef(null);
 
   const getFormattedTime = (timeString) => {
+    if (!timeString) return "";
     return timeString.split(" ")[0].split(":").slice(0, 2).join(":");
   };
 
   useEffect(() => {
     const initialMessages = [
-      {
-        text: "Hey there! 👋",
-        sender: "bot",
-      },
+      { text: "Hey there! 👋", sender: "bot" },
       {
         text: "Emily this side. Let’s find out if you qualify for reduction on your Auto Insurance Rate — it’s quick and only takes 2 minutes!",
         sender: "bot",
@@ -49,11 +51,13 @@ export default function Chatbot() {
       },
     ];
     addMessagesWithDelay(initialMessages);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addMessagesWithDelay = (botResponses) => {
     let delay = 0;
     setIsTyping(true);
+
     botResponses.forEach((response, index) => {
       setTimeout(() => {
         setMessages((prev) => [
@@ -64,6 +68,7 @@ export default function Chatbot() {
             lastInSequence: index === botResponses.length - 1,
           },
         ]);
+
         if (index === botResponses.length - 1) {
           setIsTyping(false);
           if (response.options) setCurrentOptions(response.options);
@@ -74,22 +79,20 @@ export default function Chatbot() {
   };
 
   const handleOptionClick = (option) => {
-    if (option === "👉 Yes, Reduce My Rate!") {
-      setMessages((prev) => [
-        ...prev,
-        { text: "Yes", sender: "user", time: new Date().toTimeString() },
-      ]);
-    } else {
-      setMessages((prev) => [
-        ...prev,
-        { text: option, sender: "user", time: new Date().toTimeString() },
-      ]);
-    }
+    // Push user message
+    const userText = option === "👉 Yes, Reduce My Rate!" ? "Yes" : option;
+    setMessages((prev) => [
+      ...prev,
+      { text: userText, sender: "user", time: new Date().toTimeString() },
+    ]);
+
+    // reset UI
     setShowInput(false);
     setCurrentOptions([]);
+
     let botResponses = [];
 
-    // Question 0: Initial start
+    // Question 0: Start
     if (option === "👉 Yes, Reduce My Rate!") {
       setQuestionNumber(1);
       botResponses = [
@@ -104,9 +107,8 @@ export default function Chatbot() {
         },
       ];
     }
-    // Question 1: Age question - any answer goes to Question 2
+    // Question 1: Age
     else if (questionNumber === 1) {
-      console.log("Setting ageAnswer:", option);
       setAgeAnswer(option);
       setQuestionNumber(2);
       botResponses = [
@@ -117,9 +119,8 @@ export default function Chatbot() {
         },
       ];
     }
-    // Question 2: Insured question - any answer goes to Question 3
+    // Question 2: Insured
     else if (questionNumber === 2) {
-      console.log("Setting insuredAnswer:", option);
       setInsuredAnswer(option);
       setQuestionNumber(3);
       botResponses = [
@@ -130,8 +131,9 @@ export default function Chatbot() {
         },
       ];
     }
-    // Question 3: Payment question - any answer shows congrats
+    // Question 3: Payment >100
     else if (questionNumber === 3) {
+      setPayMoreThan100(option);
       botResponses = [
         {
           text: "🎉 Fantastic news - You're just one step away from securing lower rate!",
@@ -142,6 +144,7 @@ export default function Chatbot() {
           sender: "bot",
         },
       ];
+
       setTimeout(() => {
         setFinalMessage(true);
       }, 4000);
@@ -152,29 +155,33 @@ export default function Chatbot() {
 
   const handleSendInput = () => {
     if (inputValue.trim() === "") return;
-    setMessages((prev) => [...prev, { text: inputValue, sender: "user" }]);
+
+    setMessages((prev) => [
+      ...prev,
+      { text: inputValue, sender: "user", time: new Date().toTimeString() },
+    ]);
+
+    const name = inputValue;
     setInputValue("");
     setShowInput(false);
-    let botResponses = [
-      { text: `Nice to meet you, ${inputValue}!`, sender: "bot" },
-      {
-        text: "Let's begin your Soulmate Portrait.",
-        sender: "bot",
-        options: ["Start"],
-      },
+
+    const botResponses = [
+      { text: `Nice to meet you, ${name}!`, sender: "bot" },
+      { text: "Let's begin your Soulmate Portrait.", sender: "bot", options: ["Start"] },
     ];
+
     addMessagesWithDelay(botResponses);
   };
 
   useEffect(() => {
     if (messagesEndRef.current) {
       const container = messagesEndRef.current.parentElement;
-      if(finalMessage){
+      if (finalMessage) {
         container.scrollTo({
           top: container.scrollHeight - container.clientHeight - 100,
           behavior: "smooth",
         });
-      }else{
+      } else {
         container.scrollTo({
           top: container.scrollHeight - container.clientHeight,
           behavior: "smooth",
@@ -183,18 +190,6 @@ export default function Chatbot() {
     }
   }, [messages, finalMessage, isTyping]);
 
-  // Log values when finalMessage is set
-  useEffect(() => {
-    if (finalMessage) {
-      console.log("Final message triggered. Passing to CallToActiondq2:", {
-        ageAnswer,
-        insuredAnswer,
-        finalMessage
-      });
-    }
-  }, [finalMessage, ageAnswer, insuredAnswer]);
-  
-  
   return (
     <div
       className="w-full h-screen flex flex-col bg-cover bg-center"
@@ -204,16 +199,17 @@ export default function Chatbot() {
       }}
     >
       <div className="bg-[#005e54] text-white p-4 flex items-center gap-2 shadow-md sticky top-0 right-0 left-0 z-10 h-16">
-        <img
-          src={agent}
-          alt="Psychic Master"
-          className="w-10 h-10 rounded-full"
-        />
+        <img src={agent} alt="Psychic Master" className="w-10 h-10 rounded-full" />
         <div className="flex items-center justify-between w-full">
           <div>
             <div className="flex items-center gap-3">
               <p className="font-bold text-sm">Auto Benefit Helpline</p>
-              <img src={tick} className="w-4 h-4"  style={{marginLeft:"-6px"}}/>
+              <img
+                src={tick}
+                className="w-4 h-4"
+                style={{ marginLeft: "-6px" }}
+                alt=""
+              />
             </div>
             <p className="text-sm ">online</p>
           </div>
@@ -244,6 +240,7 @@ export default function Chatbot() {
                   className="w-8 h-8 rounded-full mr-2 absolute bottom-0"
                 />
               )}
+
               <motion.div
                 initial={{ width: 0, height: 15 }}
                 animate={{ width: "auto", height: "auto" }}
@@ -264,9 +261,7 @@ export default function Chatbot() {
                 </motion.span>
 
                 <span className="flex flex-row-reverse gap-1 items-center">
-                  {msg.sender === "user" && (
-                    <img src={deliver} className="h-4 w-4" />
-                  )}
+                  {msg.sender === "user" && <img src={deliver} className="h-4 w-4" alt="" />}
                   <span className="text-[10px] text-gray-400">
                     {getFormattedTime(msg.time)}
                   </span>
@@ -296,6 +291,7 @@ export default function Chatbot() {
             </motion.div>
           </motion.div>
         )}
+
         {showInput && (
           <div className="mt-2 flex items-center gap-2 justify-end">
             <input
@@ -313,6 +309,7 @@ export default function Chatbot() {
             </button>
           </div>
         )}
+
         {currentOptions.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-2 items-center justify-start ms-10">
             {currentOptions.map((option, i) => (
@@ -326,7 +323,16 @@ export default function Chatbot() {
             ))}
           </div>
         )}
-        {finalMessage && <CallToActiondq2 finalMessage={finalMessage} switchNumber={switchNumber} ageAnswer={ageAnswer} insuredAnswer={insuredAnswer}/>}
+
+        {finalMessage && (
+          <CallToActiondq2
+            finalMessage={finalMessage}
+            switchNumber={switchNumber}
+            ageAnswer={ageAnswer}
+            insuredAnswer={insuredAnswer}
+            payMoreThan100={payMoreThan100}
+          />
+        )}
 
         <div ref={messagesEndRef} />
       </div>
