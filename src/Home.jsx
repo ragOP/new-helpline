@@ -29,7 +29,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src={agent} alt="Live Benefit" className="w-10 h-10 rounded-full" />
-            <h1 className="text-2xl font-bold">Auto Benefit Helpline</h1>
+            <h1 className="text-2xl font-bold">Live Benefit Helpline</h1>
           </div>
           <button className="bg-white text-[#005e54] px-6 py-2 rounded-lg font-bold hover:bg-gray-100 transition">
             Get Started
@@ -44,7 +44,21 @@ const Home = () => {
         transition={{ duration: 0.8 }}
         className="bg-gradient-to-r from-[#005e54] to-[#007a6e] text-white py-20 px-4 sm:px-6 lg:px-8"
       >
-      
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-5xl sm:text-6xl font-bold mb-6">
+          Claim Your Lower Auto Insurance Rate Today! 
+          </h2>
+          <p className="text-xl mb-4 text-gray-100">
+          It takes just 2 minutes to qualify. Get the rate you deserve.
+          </p>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-white text-[#005e54] px-10 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition"
+          >
+            Check Your Eligibility →
+          </motion.button>
+        </div>
       </motion.section>
 
       {/* Benefits Section */}
@@ -55,7 +69,12 @@ const Home = () => {
         viewport={{ once: true, margin: '-100px' }}
         className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50"
       >
-      
+        <div className="max-w-6xl mx-auto">
+          <h3 className="text-4xl font-bold text-center mb-16 text-gray-900">
+            What You Can Get
+          </h3>
+        
+        </div>
       </motion.section>
 
       {/* How It Works */}
@@ -112,7 +131,7 @@ const Home = () => {
         viewport={{ once: true, margin: '-100px' }}
         className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50"
       >
-      
+     
       </motion.section>
 
       {/* CTA Section */}
@@ -126,7 +145,7 @@ const Home = () => {
         <div className="max-w-4xl mx-auto text-center">
           <h3 className="text-4xl font-bold mb-4">Ready to Claim Your Benefits?</h3>
           <p className="text-xl mb-8 text-gray-100">
-            Start the quick 2-minute eligibility check now. No commitments, just answers.
+          Ready to Claim Your Lower Rate?
           </p>
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -141,7 +160,7 @@ const Home = () => {
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto text-center">
-          <p className="mb-2">&copy; 2026 Auto Benefit Helpline. All rights reserved.</p>
+          <p className="mb-2">&copy; 2026 Live Benefit Helpline. All rights reserved.</p>
           <p className="text-sm text-gray-500">
             Not affiliated with any government agency. Information for eligibility purposes only.
           </p>
