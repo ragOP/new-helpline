@@ -53,7 +53,7 @@ const Home = () => {
           Claim Your Lower Auto Insurance Rate Today! 
           </h2>
           <p className="text-xl mb-4 text-gray-100">
-          It takes just 2 minutes to qualify. Get the rate you deserve.
+          It takes just 2 minutes to qualify. Get the rate you deserve...
           </p>
           <motion.button
             onClick={() => navigate('/engsfdq')}
