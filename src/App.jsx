@@ -13,6 +13,7 @@ import QuestionLanding from './QuestionLanding';
 import Chatbotdq2fast from './Chatbotdq2Fast';
 import CallLanding from './CallLanding';
 import CTALanding from './CTALanding';
+import CompareLanding from './CompareLanding';
 
 const App = () => {
   
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/questions" element={<QuestionLanding />} />
         <Route path="/call" element={<CallLanding />} />
         <Route path="/cta" element={<CTALanding />} />
+        <Route path="/compare" element={<CompareLanding />} />
         {/* <Route path="/engsf2200" element={<ChatbotTwo />} />
         <Route path="/engsf1dup" element={<Chatbotdq2 />} />
         <Route path="/engsffast" element={<FastChat />} />
