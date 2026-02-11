@@ -11,6 +11,7 @@ import FastChat from './FastChat';
 import Raghib from './Raghib';
 import QuestionLanding from './QuestionLanding';
 import Chatbotdq2fast from './Chatbotdq2Fast';
+import CallLanding from './CallLanding';
 
 const App = () => {
   
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/engsfdq" element={<Chatbotdq2 />} />
         <Route path="/check" element={<Chatbotdq2fast />} />
         <Route path="/questions" element={<QuestionLanding />} />
+        <Route path="/call" element={<CallLanding />} />
         {/* <Route path="/engsf2200" element={<ChatbotTwo />} />
         <Route path="/engsf1dup" element={<Chatbotdq2 />} />
         <Route path="/engsffast" element={<FastChat />} />
