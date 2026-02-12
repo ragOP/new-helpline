@@ -17,6 +17,7 @@ import CompareLanding from './CompareLanding';
 import StoryLanding from './StoryLanding';
 import TermsAndConditions from './TermsAndConditions';
 import PrivacyPolicy from './PrivacyPolicy';
+import BenefitsExplorer from './BenefitsExplorer';
 
 const App = () => {
   
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/cta" element={<CTALanding />} />
         <Route path="/compare" element={<CompareLanding />} />
         <Route path="/story" element={<StoryLanding />} />
+        <Route path="/explorer" element={<BenefitsExplorer />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         {/* <Route path="/engsf2200" element={<ChatbotTwo />} />
