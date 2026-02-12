@@ -15,6 +15,8 @@ import CallLanding from './CallLanding';
 import CTALanding from './CTALanding';
 import CompareLanding from './CompareLanding';
 import StoryLanding from './StoryLanding';
+import TermsAndConditions from './TermsAndConditions';
+import PrivacyPolicy from './PrivacyPolicy';
 
 const App = () => {
   
@@ -30,6 +32,8 @@ const App = () => {
         <Route path="/cta" element={<CTALanding />} />
         <Route path="/compare" element={<CompareLanding />} />
         <Route path="/story" element={<StoryLanding />} />
+        <Route path="/terms" element={<TermsAndConditions />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
         {/* <Route path="/engsf2200" element={<ChatbotTwo />} />
         <Route path="/engsf1dup" element={<Chatbotdq2 />} />
         <Route path="/engsffast" element={<FastChat />} />

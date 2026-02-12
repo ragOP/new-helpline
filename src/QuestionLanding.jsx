@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import agent from "./assets/pic.png";
 import tick from "./assets/tick2.png";
 import { Phone, Check, ArrowRight } from "lucide-react";
@@ -149,10 +150,10 @@ export default function QuestionLanding() {
         <div className="flex items-center justify-between w-full">
           <div>
             <div className="flex items-center gap-2">
-              <p className="font-bold text-sm sm:text-base">Auto Benefit Helpline</p>
+              <p className="font-bold text-base sm:text-lg">Auto Benefit Helpline</p>
               <img src={tick} className="w-4 h-4" style={{ marginLeft: "-6px" }} />
             </div>
-            <p className="text-xs sm:text-sm text-gray-200">online</p>
+            <p className="text-sm sm:text-base text-gray-200">online</p>
           </div>
           <Phone className="w-5 h-5 text-white flex-shrink-0" />
         </div>
@@ -164,7 +165,7 @@ export default function QuestionLanding() {
           {/* Progress Bar */}
           {answers.started && !showCTA && (
             <div className="mb-6">
-              <div className="flex justify-between text-white text-xs mb-2">
+              <div className="flex justify-between text-white text-sm mb-2">
                 <span>Question {currentStep} of {steps.length - 1}</span>
                 <span>{Math.round(((currentStep) / (steps.length - 1)) * 100)}%</span>
               </div>
@@ -194,17 +195,17 @@ export default function QuestionLanding() {
               >
                 <span className="text-4xl">👋</span>
               </motion.div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
                 Hey there!
               </h1>
-              <p className="text-gray-700 mb-6 text-sm sm:text-base leading-relaxed">
-                Emily this side. Let's find out if you qualify for reduction on your Auto Insurance Rate — it's quick and only takes 2 minutes!
+              <p className="text-gray-700 mb-6 text-base sm:text-lg leading-relaxed">
+                Let's find out if you qualify for reduction on your Auto Insurance Rate — it's quick and only takes 2 minutes!
               </p>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleStart}
-                className="w-full bg-[#005e54] text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover:bg-[#007a6e] transition"
+                className="w-full bg-[#005e54] text-white py-4 px-3 sm:px-6 rounded-xl font-bold text-sm sm:text-base md:text-lg lg:text-xl shadow-lg hover:bg-[#007a6e] transition whitespace-nowrap"
               >
                 👉 Yes! Show me how to claim!
               </motion.button>
@@ -226,13 +227,13 @@ export default function QuestionLanding() {
                   <img src={agent} alt="Emily" className="w-12 h-12 rounded-full" />
                   <div>
                     <p className="font-bold text-gray-900">Emily</p>
-                    <p className="text-xs text-gray-500">Auto Benefit Helpline</p>
+                    <p className="text-sm text-gray-500">Auto Benefit Helpline</p>
                   </div>
                 </div>
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
                   {steps[currentStep].title}
                 </h2>
-                <p className="text-gray-700 mb-6 text-sm sm:text-base">
+                <p className="text-gray-700 mb-6 text-base sm:text-lg">
                   {steps[currentStep].message}
                 </p>
                 <div className="space-y-3">
@@ -242,7 +243,7 @@ export default function QuestionLanding() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleAnswer(option, steps[currentStep].questionKey)}
-                      className="w-full bg-[#005e54] text-white py-4 px-6 rounded-xl font-semibold text-base sm:text-lg shadow-md hover:bg-[#007a6e] transition flex items-center justify-between group"
+                      className="w-full bg-[#005e54] text-white py-4 px-6 rounded-xl font-semibold text-lg sm:text-xl shadow-md hover:bg-[#007a6e] transition flex items-center justify-between group"
                     >
                       <span>{option}</span>
                       <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition" />
@@ -269,10 +270,10 @@ export default function QuestionLanding() {
                 <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
                   <Check className="w-10 h-10 text-green-600" />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
                   🎉 Fantastic news!
                 </h2>
-                <p className="text-gray-700 text-sm sm:text-base">
+                <p className="text-gray-700 text-base sm:text-lg">
                   You're one step away from securing lower rate
                 </p>
               </motion.div>
@@ -283,7 +284,7 @@ export default function QuestionLanding() {
                 transition={{ delay: 0.4 }}
                 className="bg-green-50 border-2 border-green-200 rounded-xl p-4 mb-6"
               >
-                <p className="text-gray-800 font-semibold text-sm sm:text-base text-center">
+                <p className="text-gray-800 font-semibold text-base sm:text-lg text-center">
                   Based on what you've told me, you're eligible for a reduction on your Auto Insurance Rate!
                 </p>
               </motion.div>
@@ -294,7 +295,7 @@ export default function QuestionLanding() {
                 transition={{ delay: 0.6 }}
                 className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 mb-6"
               >
-                <p className="text-gray-800 font-semibold text-sm sm:text-base text-center">
+                <p className="text-gray-800 font-semibold text-base sm:text-lg text-center">
                   Tap on the button below to make a quick call & that's it. You'll be qualified on the call by a licensed agent in minutes 👇
                 </p>
               </motion.div>
@@ -304,9 +305,9 @@ export default function QuestionLanding() {
                 onClick={handleCallClick}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="block w-full bg-gradient-to-r from-green-500 to-green-600 text-white text-xl font-bold py-5 px-6 rounded-xl text-center shadow-lg hover:shadow-xl transition mb-4 relative overflow-hidden"
+                className="block w-full bg-gradient-to-r from-green-500 to-green-600 text-white text-2xl font-bold py-5 px-6 rounded-xl text-center shadow-lg hover:shadow-xl transition mb-4 relative overflow-hidden"
               >
-                <span className="relative z-10 flex items-center justify-center gap-2">
+                <span className="relative z-10 flex items-center justify-center gap-2 whitespace-nowrap">
                   <Phone className="w-6 h-6" />
                   {switchNumber ? "CALL (323)-689-7861" : "CALL (833)-366-8513"}
                 </span>
@@ -317,7 +318,7 @@ export default function QuestionLanding() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8 }}
-                className="text-gray-600 text-center text-xs sm:text-sm mb-2"
+                className="text-gray-600 text-center text-sm sm:text-base mb-2"
               >
                 Due to high call volume, your official agent is waiting for only{" "}
                 <span className="font-bold">3 minutes</span>, then your spot will not be reserved.
@@ -325,11 +326,9 @@ export default function QuestionLanding() {
 
               <motion.p
                 initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1, type: "spring" }}
-                className="text-red-500 font-bold text-2xl sm:text-3xl text-center"
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                animate={{ opacity: 1, scale: [1, 1.1, 1] }}
+                transition={{ delay: 1, repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                className="text-red-500 font-bold text-3xl sm:text-4xl text-center"
               >
                 {formatTime(time)}
               </motion.p>
@@ -339,8 +338,23 @@ export default function QuestionLanding() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-[#005e54] text-white text-center py-4 px-4 text-xs">
-        <p>&copy; 2026 Auto Benefit Helpline. All rights reserved.</p>
+      <footer className="bg-[#005e54] text-white text-center py-4 px-4 text-sm">
+        <p className="mb-2">&copy; 2026 Auto Benefit Helpline. All rights reserved.</p>
+        {/* <p className="text-gray-200 text-xs mb-3">
+          Helping you find savings on your auto insurance rates.
+        </p> */}
+        <p className="text-yellow-200 text-xs mb-3 max-w-2xl mx-auto">
+          ⚠️ Beware of other fraudulent & similar-looking websites that might look exactly like ours, we have no affiliation with them. This is the only official website to claim your Auto Insurance Subsidy with the domain name mybenefithelpline.org
+        </p>
+        <div className="flex items-center justify-center gap-4 text-xs mt-3">
+          <Link to="/terms" className="text-gray-200 hover:text-white underline transition">
+            Terms & Conditions
+          </Link>
+          <span className="text-gray-400">|</span>
+          <Link to="/privacy" className="text-gray-200 hover:text-white underline transition">
+            Privacy Policy
+          </Link>
+        </div>
       </footer>
     </div>
   );
