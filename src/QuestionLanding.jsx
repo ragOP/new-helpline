@@ -306,7 +306,7 @@ export default function QuestionLanding() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleStart}
-                className="w-full bg-[#005e54] text-white py-4 sm:py-5 md:py-6 px-3 sm:px-6 md:px-8 rounded-xl font-bold text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl shadow-lg hover:bg-[#007a6e] transition whitespace-nowrap"
+                className="w-full bg-[#005e54] text-white py-8 sm:py-9 md:py-11 px-6 sm:px-10 md:px-14 rounded-xl font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl shadow-lg hover:bg-[#007a6e] transition whitespace-nowrap overflow-hidden text-ellipsis"
               >
                 👉 Yes! Show me how to claim!
               </motion.button>
@@ -443,7 +443,7 @@ export default function QuestionLanding() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-[#005e54] text-white text-center py-4 sm:py-5 md:py-6 px-4 sm:px-5 md:px-6 text-sm sm:text-base md:text-lg mt-auto w-full">
+      <footer className="bg-[#005e54] text-white text-center py-12 sm:py-16 md:py-20 px-8 sm:px-12 md:px-16 text-sm sm:text-base md:text-lg mt-auto w-full">
         <div className="max-w-7xl mx-auto">
           <p className="mb-6 sm:mb-8 md:mb-10">&copy; 2026 Auto Benefit Helpline. All rights reserved.</p>
           {/* <p className="text-gray-200 text-xs mb-3">
