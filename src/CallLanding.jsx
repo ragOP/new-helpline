@@ -1,10 +1,56 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Phone, Sparkles } from "lucide-react";
 
 export default function CallLanding() {
   const [time, setTime] = useState(180);
-  const switchNumber = false;
+
+  // ---------- Ringba helpers (same pattern as QuestionLanding) ----------
+  const pushToRgbaTags = useCallback((obj) => {
+    try {
+      window._rgba_tags = window._rgba_tags || [];
+      window._rgba_tags.push(obj);
+      console.log("✅ _rgba_tags push:", obj, "=>", window._rgba_tags);
+    } catch (e) {
+      console.error("❌ _rgba_tags push error:", e);
+    }
+  }, []);
+
+  const tryRingbaAPIs = useCallback((key, val) => {
+    try {
+      if (!window.Ringba) return false;
+
+      // Some Ringba scripts expose different methods depending on setup
+      if (typeof window.Ringba.setTag === "function") {
+        window.Ringba.setTag(key, val);
+        return true;
+      }
+      if (typeof window.Ringba.addTag === "function") {
+        window.Ringba.addTag(key, val);
+        return true;
+      }
+      if (typeof window.Ringba.push === "function") {
+        window.Ringba.push(["setTag", key, val]);
+        return true;
+      }
+
+      // fallback: direct tags object
+      window.Ringba.tags = window.Ringba.tags || {};
+      window.Ringba.tags[key] = val;
+      return true;
+    } catch (e) {
+      console.error("❌ Ringba API set error:", e);
+      return false;
+    }
+  }, []);
+
+  const setTagBothWays = useCallback((key, val) => {
+    // ✅ EXACTLY like QuestionLanding behavior
+    pushToRgbaTags({ [key]: val });
+
+    // ✅ Also set directly if Ringba object is available (extra safety)
+    tryRingbaAPIs(key, val);
+  }, [pushToRgbaTags, tryRingbaAPIs]);
 
   // Countdown timer
   useEffect(() => {
@@ -17,10 +63,19 @@ export default function CallLanding() {
   }, [time]);
 
   const handleCallClick = () => {
-    // Ringba tags can be set here if needed
+    console.log("📞 Call clicked — pushing tags");
+
+    // Same as QuestionLanding approach: push tags at click moment
+    // You can add specific tags here if needed
+    setTagBothWays("source", "call_landing");
+
+    // Extra: ensure Ringba APIs get the latest on click
     if (window.Ringba) {
-      // Add any tags you want here
+      tryRingbaAPIs("source", "call_landing");
     }
+
+    console.log("Current _rgba_tags:", window._rgba_tags);
+    console.log("Ringba object:", window.Ringba);
   };
 
   const formatTime = (seconds) => {
@@ -103,7 +158,7 @@ export default function CallLanding() {
               className="mb-6 sm:mb-8 md:mb-12 px-2"
             >
               <motion.a
-                href={switchNumber ? 'tel:+13236897861' : 'tel:+18336638513'}
+                href="tel:+16197753027"
                 onClick={handleCallClick}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -112,7 +167,7 @@ export default function CallLanding() {
                 <span className="relative z-10 flex items-center justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6">
                   <Phone className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 animate-pulse flex-shrink-0" />
                   <span className="leading-tight">
-                    {switchNumber ? "CALL (323)-689-7861" : "CALL (833)-366-8513"}
+                    CALL (619)-775-3027
                   </span>
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-[#34d399] to-[#10b981] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
