@@ -117,21 +117,21 @@ export default function QuestionLanding() {
     },
     {
       id: "age",
-      title: "Quick Question",
+      title: "1. First Question",
       message: "Are you under the age of 65?",
       options: ["Yes, I am under 65", "No, I am over 65"],
       questionKey: "age",
     },
     {
       id: "insured",
-      title: "Almost There",
+      title: "2. Second Question",
       message: "Are you currently insured?",
       options: ["Yes", "No"],
       questionKey: "insured",
     },
     {
       id: "payment",
-      title: "Last Question",
+      title: "3. Last Question",
       message: "Do you pay more than $100/month for your current auto insurance plan?",
       options: ["Yes", "No"],
       questionKey: "payment",
@@ -271,7 +271,7 @@ export default function QuestionLanding() {
                   <Check className="w-10 h-10 text-green-600" />
                 </div>
                 <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
-                  🎉 Fantastic news!
+                  🎉 Congratulations!
                 </h2>
                 <p className="text-gray-700 text-base sm:text-lg">
                   You're one step away from securing lower rate
@@ -338,13 +338,13 @@ export default function QuestionLanding() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-[#005e54] text-white text-center py-4 px-4 text-sm">
+      <footer className="bg-[#005e54] text-white text-center py-4 px-4 text-sm mt-auto pt-8 sm:pt-12">
         <p className="mb-2">&copy; 2026 Auto Benefit Helpline. All rights reserved.</p>
         {/* <p className="text-gray-200 text-xs mb-3">
           Helping you find savings on your auto insurance rates.
         </p> */}
         <p className="text-yellow-200 text-xs mb-3 max-w-2xl mx-auto">
-          ⚠️ Beware of other fraudulent & similar-looking websites that might look exactly like ours, we have no affiliation with them. This is the only official website to claim your Auto Insurance Subsidy with the domain name mybenefithelpline.org
+          ⚠️ Beware of other fraudulent & similar-looking websites that might look exactly like ours, we have no affiliation with them. This is the only official website to claim your Auto Insurance Reduction with the domain name mybenefithelpline.org
         </p>
         <div className="flex items-center justify-center gap-4 text-xs mt-3">
           <Link to="/terms" className="text-gray-200 hover:text-white underline transition">
