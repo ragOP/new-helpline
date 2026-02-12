@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import agent from "./assets/pic.png";
@@ -16,6 +16,76 @@ export default function QuestionLanding() {
   const [time, setTime] = useState(180);
   const [showCTA, setShowCTA] = useState(false);
   const audioRef = useRef(null);
+
+  // ---------- Ringba helpers (same pattern as CallToActiondq2) ----------
+  const pushToRgbaTags = useCallback((obj) => {
+    try {
+      window._rgba_tags = window._rgba_tags || [];
+      window._rgba_tags.push(obj);
+      console.log("✅ _rgba_tags push:", obj, "=>", window._rgba_tags);
+    } catch (e) {
+      console.error("❌ _rgba_tags push error:", e);
+    }
+  }, []);
+
+  const tryRingbaAPIs = useCallback((key, val) => {
+    try {
+      if (!window.Ringba) return false;
+
+      // Some Ringba scripts expose different methods depending on setup
+      if (typeof window.Ringba.setTag === "function") {
+        window.Ringba.setTag(key, val);
+        return true;
+      }
+      if (typeof window.Ringba.addTag === "function") {
+        window.Ringba.addTag(key, val);
+        return true;
+      }
+      if (typeof window.Ringba.push === "function") {
+        window.Ringba.push(["setTag", key, val]);
+        return true;
+      }
+
+      // fallback: direct tags object
+      window.Ringba.tags = window.Ringba.tags || {};
+      window.Ringba.tags[key] = val;
+      return true;
+    } catch (e) {
+      console.error("❌ Ringba API set error:", e);
+      return false;
+    }
+  }, []);
+
+  const setTagBothWays = useCallback((key, val) => {
+    // ✅ EXACTLY like CallToActiondq2 behavior
+    pushToRgbaTags({ [key]: val });
+
+    // ✅ Also set directly if Ringba object is available (extra safety)
+    tryRingbaAPIs(key, val);
+  }, [pushToRgbaTags, tryRingbaAPIs]);
+
+  // Normalize values to match tag pattern
+  const derivedTags = useMemo(() => {
+    const tags = {};
+
+    if (answers.age) {
+      // Age question: "Yes, I am under 65" / "No, I am over 65"
+      const ageVal = answers.age.includes("under 65") ? "under_65" : "over_65";
+      tags.age = ageVal;
+    }
+
+    if (answers.insured) {
+      tags.insured = answers.insured === "Yes" ? "yes" : "no";
+    }
+
+    if (answers.payment) {
+      tags.pay_over_100 = answers.payment === "Yes" ? "yes" : "no";
+      // Coverage-like tag similar to CallToActiondq2
+      tags.coverage = answers.payment === "Yes" ? "Above-100" : "Below-100";
+    }
+
+    return tags;
+  }, [answers.age, answers.insured, answers.payment]);
 
   // Initialize audio element
   useEffect(() => {
@@ -68,36 +138,35 @@ export default function QuestionLanding() {
     }
   }, [showCTA, time]);
 
-  // Set Ringba tags when answers are collected
+  // ---------- when CTA shows, push tags (like CallToActiondq2 flow) ----------
   useEffect(() => {
-    if (showCTA && (answers.age || answers.insured)) {
-      const setRingbaTags = () => {
-        if (window.Ringba) {
-          // Set age tag
-          if (answers.age) {
-            const ageValue = answers.age.includes("under 65") ? "under_65" : "over_65";
-            if (window.Ringba.setTag) {
-              window.Ringba.setTag("age", ageValue);
-            } else if (window.Ringba.addTag) {
-              window.Ringba.addTag("age", ageValue);
-            }
-          }
-          // Set insured tag
-          if (answers.insured) {
-            const insuredValue = answers.insured === "Yes" ? "yes" : "no";
-            if (window.Ringba.setTag) {
-              window.Ringba.setTag("insured", insuredValue);
-            } else if (window.Ringba.addTag) {
-              window.Ringba.addTag("insured", insuredValue);
-            }
-          }
-        } else {
-          setTimeout(setRingbaTags, 100);
-        }
-      };
-      setRingbaTags();
-    }
-  }, [showCTA, answers.age, answers.insured]);
+    if (!showCTA) return;
+
+    // Push immediately
+    Object.entries(derivedTags).forEach(([k, v]) => setTagBothWays(k, v));
+
+    // Also retry for a few seconds in case Ringba loads late
+    let retryCount = 0;
+    const maxRetries = 50; // ~5 seconds
+
+    const retry = () => {
+      retryCount += 1;
+
+      // Only retry Ringba direct APIs; _rgba_tags is already pushed
+      if (window.Ringba) {
+        Object.entries(derivedTags).forEach(([k, v]) => tryRingbaAPIs(k, v));
+        return;
+      }
+
+      if (retryCount < maxRetries) {
+        setTimeout(retry, 100);
+      } else {
+        console.warn("Ringba not found after retries. _rgba_tags still pushed.");
+      }
+    };
+
+    retry();
+  }, [showCTA, derivedTags, setTagBothWays, tryRingbaAPIs]);
 
   const handleAnswer = (answer, questionKey) => {
     setAnswers((prev) => ({ ...prev, [questionKey]: answer }));
@@ -121,25 +190,16 @@ export default function QuestionLanding() {
   };
 
   const handleCallClick = () => {
-    // Send tags to Ringba on click
-    if (window.Ringba) {
-      if (answers.age) {
-        const ageValue = answers.age.includes("under 65") ? "under_65" : "over_65";
-        if (window.Ringba.setTag) {
-          window.Ringba.setTag("age", ageValue);
-        } else if (window.Ringba.addTag) {
-          window.Ringba.addTag("age", ageValue);
-        }
-      }
-      if (answers.insured) {
-        const insuredValue = answers.insured === "Yes" ? "yes" : "no";
-        if (window.Ringba.setTag) {
-          window.Ringba.setTag("insured", insuredValue);
-        } else if (window.Ringba.addTag) {
-          window.Ringba.addTag("insured", insuredValue);
-        }
-      }
-    }
+    console.log("📞 Call clicked — pushing tags again:", derivedTags);
+
+    // Same as CallToActiondq2 approach: push again at click moment
+    Object.entries(derivedTags).forEach(([k, v]) => setTagBothWays(k, v));
+
+    // Extra: ensure Ringba APIs get the latest on click
+    Object.entries(derivedTags).forEach(([k, v]) => tryRingbaAPIs(k, v));
+
+    console.log("Current _rgba_tags:", window._rgba_tags);
+    console.log("Ringba object:", window.Ringba);
   };
 
   const formatTime = (seconds) => {
