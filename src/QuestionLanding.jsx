@@ -15,7 +15,6 @@ export default function QuestionLanding() {
   });
   const [time, setTime] = useState(180);
   const [showCTA, setShowCTA] = useState(false);
-  const switchNumber = false;
 
   // Countdown timer
   useEffect(() => {
@@ -301,7 +300,7 @@ export default function QuestionLanding() {
               </motion.div>
 
               <motion.a
-                href={switchNumber ? 'tel:+13236897861' : 'tel:+18336638513'}
+                href="tel:+16197753027"
                 onClick={handleCallClick}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -309,7 +308,7 @@ export default function QuestionLanding() {
               >
                 <span className="relative z-10 flex items-center justify-center gap-2 whitespace-nowrap">
                   <Phone className="w-6 h-6" />
-                  {switchNumber ? "CALL (323)-689-7861" : "CALL (833)-366-8513"}
+                  CALL (619)-775-3027
                 </span>
                 <div className="absolute inset-0 shimmer"></div>
               </motion.a>
@@ -324,29 +323,33 @@ export default function QuestionLanding() {
                 <span className="font-bold">3 minutes</span>, then your spot will not be reserved.
               </motion.p>
 
-              <motion.p
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: [1, 1.1, 1] }}
-                transition={{ delay: 1, repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                className="text-red-500 font-bold text-3xl sm:text-4xl text-center"
-              >
-                {formatTime(time)}
-              </motion.p>
+              <div className="text-center">
+                <motion.div
+                  initial={{ scale: 0.9 }}
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                  className="inline-block bg-red-500/20 backdrop-blur-sm border-2 border-red-400/60 rounded-xl sm:rounded-2xl px-6 sm:px-8 md:px-10 py-4 sm:py-5 md:py-6 shadow-lg"
+                >
+                  <p className="text-red-300 font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl tabular-nums">
+                    {formatTime(time)}
+                  </p>
+                </motion.div>
+              </div>
             </motion.div>
           )}
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="bg-[#005e54] text-white text-center py-4 px-4 text-sm mt-auto pt-8 sm:pt-12">
-        <p className="mb-2">&copy; 2026 Auto Benefit Helpline. All rights reserved.</p>
+      <footer className="bg-[#005e54] text-white text-center py-4 px-4 text-sm mt-auto pt-16 sm:pt-20 pb-8 sm:pb-12">
+        <p className="mb-6">&copy; 2026 Auto Benefit Helpline. All rights reserved.</p>
         {/* <p className="text-gray-200 text-xs mb-3">
           Helping you find savings on your auto insurance rates.
         </p> */}
-        <p className="text-yellow-200 text-xs mb-3 max-w-2xl mx-auto">
+        <p className="text-yellow-200 text-xs mb-8 max-w-2xl mx-auto">
           ⚠️ Beware of other fraudulent & similar-looking websites that might look exactly like ours, we have no affiliation with them. This is the only official website to claim your Auto Insurance Reduction with the domain name mybenefithelpline.org
         </p>
-        <div className="flex items-center justify-center gap-4 text-xs mt-3">
+        <div className="flex items-center justify-center gap-4 text-xs mt-6">
           <Link to="/terms" className="text-gray-200 hover:text-white underline transition">
             Terms & Conditions
           </Link>
