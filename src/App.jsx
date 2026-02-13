@@ -19,6 +19,7 @@ import TermsAndConditions from './TermsAndConditions';
 import PrivacyPolicy from './PrivacyPolicy';
 import BenefitsExplorer from './BenefitsExplorer';
 import TikTokLanding from './TikTokLanding';
+import SplitCompare from './SplitCompare';
 
 const App = () => {
   
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/story" element={<StoryLanding />} />
         <Route path="/explorer" element={<BenefitsExplorer />} />
         <Route path="/tiktok" element={<TikTokLanding />} />
+        <Route path="/split" element={<SplitCompare />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         {/* <Route path="/engsf2200" element={<ChatbotTwo />} />
