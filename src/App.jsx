@@ -23,6 +23,7 @@ import SplitCompare from './SplitCompare';
 import MobileLanding from './MobileLanding';
 import CompareMobile from './CompareMobile';
 import FocusPage from './FocusPage';
+import TimelinePage from './TimelinePage';
 
 const App = () => {
   
@@ -44,6 +45,7 @@ const App = () => {
         <Route path="/mobile" element={<MobileLanding />} />
         <Route path="/compare-mobile" element={<CompareMobile />} />
         <Route path="/focus" element={<FocusPage />} />
+        <Route path="/timeline" element={<TimelinePage />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         {/* <Route path="/engsf2200" element={<ChatbotTwo />} />
