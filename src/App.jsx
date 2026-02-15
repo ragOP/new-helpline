@@ -21,6 +21,7 @@ import BenefitsExplorer from './BenefitsExplorer';
 import TikTokLanding from './TikTokLanding';
 import SplitCompare from './SplitCompare';
 import MobileLanding from './MobileLanding';
+import CompareMobile from './CompareMobile';
 
 const App = () => {
   
@@ -40,6 +41,7 @@ const App = () => {
         <Route path="/tiktok" element={<TikTokLanding />} />
         <Route path="/split" element={<SplitCompare />} />
         <Route path="/mobile" element={<MobileLanding />} />
+        <Route path="/compare-mobile" element={<CompareMobile />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         {/* <Route path="/engsf2200" element={<ChatbotTwo />} />
