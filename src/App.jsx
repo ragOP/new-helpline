@@ -25,6 +25,7 @@ import CompareMobile from './CompareMobile';
 import FocusPage from './FocusPage';
 import TimelinePage from './TimelinePage';
 import MicroInteractionsPage from './MicroInteractionsPage';
+import InsuranceLander from './InsuranceLander';
 
 const App = () => {
   
@@ -48,6 +49,7 @@ const App = () => {
         <Route path="/focus" element={<FocusPage />} />
         <Route path="/timeline" element={<TimelinePage />} />
         <Route path="/micro-interactions" element={<MicroInteractionsPage />} />
+        <Route path="/insurance" element={<InsuranceLander />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         {/* <Route path="/engsf2200" element={<ChatbotTwo />} />
