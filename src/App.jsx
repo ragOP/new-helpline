@@ -22,6 +22,7 @@ import TikTokLanding from './TikTokLanding';
 import SplitCompare from './SplitCompare';
 import MobileLanding from './MobileLanding';
 import CompareMobile from './CompareMobile';
+import FocusPage from './FocusPage';
 
 const App = () => {
   
@@ -42,6 +43,7 @@ const App = () => {
         <Route path="/split" element={<SplitCompare />} />
         <Route path="/mobile" element={<MobileLanding />} />
         <Route path="/compare-mobile" element={<CompareMobile />} />
+        <Route path="/focus" element={<FocusPage />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         {/* <Route path="/engsf2200" element={<ChatbotTwo />} />
