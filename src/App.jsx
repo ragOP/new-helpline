@@ -28,6 +28,7 @@ import MicroInteractionsPage from './MicroInteractionsPage';
 import InsuranceLander from './InsuranceLander';
 import BlueFocusPage from './BlueFocusPage';
 import YellowFocusPage from './YellowFocusPage';
+import EditorialPage from './EditorialPage';
 
 const App = () => {
   
@@ -54,6 +55,7 @@ const App = () => {
         <Route path="/insurance" element={<InsuranceLander />} />
         <Route path="/blue-focus" element={<BlueFocusPage />} />
         <Route path="/yellow-focus" element={<YellowFocusPage />} />
+        <Route path="/editorial" element={<EditorialPage />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         {/* <Route path="/engsf2200" element={<ChatbotTwo />} />
