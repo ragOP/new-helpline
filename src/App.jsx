@@ -26,6 +26,7 @@ import FocusPage from './FocusPage';
 import TimelinePage from './TimelinePage';
 import MicroInteractionsPage from './MicroInteractionsPage';
 import InsuranceLander from './InsuranceLander';
+import BlueFocusPage from './BlueFocusPage';
 
 const App = () => {
   
@@ -50,6 +51,7 @@ const App = () => {
         <Route path="/timeline" element={<TimelinePage />} />
         <Route path="/micro-interactions" element={<MicroInteractionsPage />} />
         <Route path="/insurance" element={<InsuranceLander />} />
+        <Route path="/blue-focus" element={<BlueFocusPage />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         {/* <Route path="/engsf2200" element={<ChatbotTwo />} />
