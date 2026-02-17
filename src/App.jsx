@@ -29,6 +29,7 @@ import InsuranceLander from './InsuranceLander';
 import BlueFocusPage from './BlueFocusPage';
 import YellowFocusPage from './YellowFocusPage';
 import EditorialPage from './EditorialPage';
+import FormDocPage from './FormDocPage';
 
 const App = () => {
   
@@ -56,6 +57,7 @@ const App = () => {
         <Route path="/blue-focus" element={<BlueFocusPage />} />
         <Route path="/yellow-focus" element={<YellowFocusPage />} />
         <Route path="/editorial" element={<EditorialPage />} />
+        <Route path="/form-doc" element={<FormDocPage />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         {/* <Route path="/engsf2200" element={<ChatbotTwo />} />
