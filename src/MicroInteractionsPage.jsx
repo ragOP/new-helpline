@@ -33,13 +33,13 @@ export default function MicroInteractionsPage() {
         
         const mockContent = {
           header: {
-            logo: agent,
+            logo: "/rooh.png",
             brand: "Auto Benefit Helpline"
           },
           hero: {
             title: "Save $500+ On Auto Insurance",
             subtitle: "Tap, swipe, and interact to discover your savings",
-            image: agent
+            image: "/rooh.png"
           },
           stats: [
             { icon: TrendingUp, value: "$500+", label: "Average Savings", color: "from-blue-500 to-cyan-500" },
@@ -156,7 +156,7 @@ export default function MicroInteractionsPage() {
           className="flex items-center gap-2"
         >
           <img 
-            src={content?.header?.logo || agent} 
+            src={content?.header?.logo || "/rooh.png"} 
             alt={content?.header?.brand || "Auto Benefit"} 
             className="w-10 h-10 rounded-full border-2 border-white/30"
           />
@@ -205,11 +205,11 @@ export default function MicroInteractionsPage() {
               className="relative mx-auto w-full max-w-md h-40 sm:max-w-2xl sm:h-56 md:max-w-3xl md:h-64 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/30 cursor-pointer touch-manipulation"
             >
               <img
-                src={content?.hero?.image || agent}
+                src={content?.hero?.image || "/rooh.png"}
                 alt="Hero"
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.target.src = agent;
+                  e.target.src = "/rooh.png";
                 }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#005e54]/60 to-transparent"></div>
