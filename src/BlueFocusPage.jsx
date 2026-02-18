@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
-import { Loader2, Phone, Sparkles, CheckCircle2, AlertCircle, ArrowRight, Shield, PartyPopper } from "lucide-react";
+import { Loader2, Phone, Sparkles, CheckCircle2, AlertCircle, Shield } from "lucide-react";
 import agent from "./assets/pic.png";
 
 export default function BlueFocusPage() {
-  const navigate = useNavigate();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -167,29 +165,9 @@ export default function BlueFocusPage() {
       <motion.header
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 sm:px-6 py-4 flex items-center justify-between shadow-sm"
+        className="relative z-10 bg-blue-600 px-4 sm:px-6 py-4 flex items-center justify-center"
       >
-        <motion.div
-          whileHover={{ scale: 1.1, rotate: 5 }}
-          whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2"
-        >
-          <img 
-            src={content?.header?.logo || agent} 
-            alt={content?.header?.brand || "Auto Benefit"} 
-            className="w-10 h-10 rounded-full border-2 border-blue-200"
-          />
-          <h1 className="text-lg sm:text-xl font-black text-gray-900">Auto Benefit</h1>
-        </motion.div>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => navigate('/')}
-          className="text-sm font-semibold text-blue-600 hover:text-blue-700 transition flex items-center gap-1"
-        >
-          Home
-          <ArrowRight className="w-4 h-4" />
-        </motion.button>
+        <h1 className="text-2xl sm:text-3xl font-bold text-white">Helpline</h1>
       </motion.header>
 
       {/* Urgency Flier */}
@@ -260,20 +238,29 @@ export default function BlueFocusPage() {
                   </h3>
 
                   <div className="space-y-3">
-                    {content.quiz[quizStep].options.map((option, index) => (
-                      <motion.button
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        whileHover={{ scale: 1.02, x: 5 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => handleAnswer(option)}
-                        className="w-full bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 text-gray-900 py-4 px-6 rounded-xl font-bold text-lg hover:border-blue-400 hover:from-blue-100 hover:to-indigo-100 transition-all text-left"
-                      >
-                        {option}
-                      </motion.button>
-                    ))}
+                    {content.quiz[quizStep].options.map((option, index) => {
+                      const isYes = option.toLowerCase() === 'yes';
+                      return (
+                        <motion.button
+                          key={index}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          whileHover={{ scale: 1.02, x: 5 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => handleAnswer(option)}
+                          className={`w-full py-4 px-6 rounded-xl font-bold text-lg transition-all text-left relative overflow-hidden ${
+                            isYes 
+                              ? 'bg-gradient-to-r from-amber-500/10 via-amber-400/20 to-amber-500/10 border-2 border-amber-500/50 text-amber-900 hover:border-amber-500 hover:from-amber-500/20 hover:via-amber-400/30 hover:to-amber-500/20 shimmer'
+                              : option.toLowerCase() === 'no'
+                              ? 'bg-gradient-to-r from-slate-100 to-slate-50 border-2 border-slate-300 text-slate-700 hover:border-slate-400 hover:from-slate-200 hover:to-slate-100'
+                              : 'bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 text-gray-700 hover:border-blue-400 hover:from-blue-100 hover:to-indigo-100'
+                          }`}
+                        >
+                          {option}
+                        </motion.button>
+                      );
+                    })}
                   </div>
                 </motion.div>
               ) : null}
@@ -283,66 +270,68 @@ export default function BlueFocusPage() {
           {/* Congratulations Section */}
           {showCongrats && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-8 sm:p-12 text-center text-white shadow-2xl"
+              className="bg-white rounded-2xl p-8 sm:p-12 shadow-2xl border border-slate-200 relative overflow-hidden"
             >
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: "spring" }}
-                className="mb-6"
-              >
-                <PartyPopper className="w-20 h-20 mx-auto text-yellow-300" />
-              </motion.div>
+              {/* Subtle background pattern */}
+              <div className="absolute inset-0 opacity-[0.02]">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-slate-900 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-500 rounded-full blur-3xl"></div>
+              </div>
               
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-4xl sm:text-5xl md:text-6xl font-black mb-4"
-              >
-                Congratulations! 🎉
-              </motion.h2>
-              
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-xl sm:text-2xl text-white/90 font-semibold mb-8"
-              >
-                You may qualify for lower rates!
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                <motion.a
-                  href={content?.call?.phone || 'tel:+16197753027'}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleCallClick}
-                  className="inline-block bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white py-6 sm:py-7 px-8 sm:px-12 rounded-2xl font-black text-xl sm:text-2xl md:text-3xl shadow-2xl flex items-center justify-center gap-4 shimmer relative overflow-hidden border-4 border-yellow-300/50"
+              <div className="relative z-10 text-center space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 mb-4"
                 >
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.3, 1],
-                      rotate: [0, 360]
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                    className="relative z-10"
+                  <CheckCircle2 className="w-8 h-8 text-white" />
+                </motion.div>
+                
+                <motion.h2
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-3"
+                >
+                  Qualification Confirmed
+                </motion.h2>
+                
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="text-lg sm:text-xl text-slate-600 font-medium mb-8 max-w-2xl mx-auto"
+                >
+                  Based on your responses, you may be eligible for significant savings on your auto insurance.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="flex flex-col items-center gap-4"
+                >
+                  <motion.a
+                    href={content?.call?.phone || 'tel:+16197753027'}
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleCallClick}
+                    className="inline-flex items-center justify-center gap-3 bg-teal-600 hover:bg-teal-700 text-white py-4 sm:py-5 px-8 sm:px-12 rounded-xl font-bold text-lg sm:text-xl shadow-lg hover:shadow-xl transition-all whitespace-nowrap w-full sm:w-auto relative overflow-hidden group"
                   >
-                    <Phone className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 text-white flex-shrink-0 animate-pulse" />
-                  </motion.div>
-                  <span className="relative z-10">{content?.call?.text || "CALL (619)-775-3027"}</span>
-                </motion.a>
-              </motion.div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                    <Phone className="w-5 h-5 sm:w-6 sm:h-6 relative z-10" />
+                    <span className="relative z-10">{content?.call?.text || "CALL (619)-775-3027"}</span>
+                  </motion.a>
+                  
+                  <p className="text-sm text-slate-500 flex items-center gap-2">
+                    <Shield className="w-4 h-4" />
+                    <span>100% Free Consultation • No Credit Card Required</span>
+                  </p>
+                </motion.div>
+              </div>
             </motion.div>
           )}
 
@@ -480,14 +469,14 @@ export default function BlueFocusPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
-              className="text-center space-y-6 bg-white rounded-3xl p-8 shadow-xl border border-gray-200"
+              transition={{ delay: 0.7 }}
+              className="text-center space-y-6 bg-gradient-to-br from-slate-50 to-white rounded-2xl p-8 shadow-lg border border-slate-200"
             >
               <div className="space-y-3">
-                <h3 className="text-3xl sm:text-4xl font-black text-gray-900">
+                <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">
                   Ready to Save?
                 </h3>
-                <p className="text-lg sm:text-xl text-gray-600 font-medium">
+                <p className="text-base sm:text-lg text-slate-600 font-medium">
                   {content.call.subtitle || "Speak with a licensed agent now"}
                 </p>
               </div>
@@ -496,8 +485,8 @@ export default function BlueFocusPage() {
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.2 }}
-                className="text-sm text-gray-600 font-medium flex items-center justify-center gap-2"
+                transition={{ delay: 0.9 }}
+                className="text-sm text-slate-500 font-medium flex items-center justify-center gap-2"
               >
                 <Shield className="w-4 h-4" />
                 <span>100% Free • No Credit Card Required</span>
@@ -507,29 +496,6 @@ export default function BlueFocusPage() {
         </div>
       </div>
 
-      {/* Footer */}
-      <motion.footer
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="relative z-10 bg-gray-900 text-gray-300 py-8 px-4 sm:px-6 border-t border-gray-800"
-      >
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-sm sm:text-base text-center sm:text-left">
-              &copy; {new Date().getFullYear()} Auto Benefit Helpline. All rights reserved.
-            </p>
-            <p className="text-xs sm:text-sm text-gray-500 text-center sm:text-right">
-              Not affiliated with any government agency. Information for eligibility purposes only.
-            </p>
-          </div>
-          <div className="mt-6 flex flex-wrap justify-center sm:justify-center gap-4 sm:gap-6 text-sm">
-            <a href="/terms" className="hover:text-white transition">Terms</a>
-            <a href="/privacy" className="hover:text-white transition">Privacy</a>
-            <a href="#contact" className="hover:text-white transition">Contact</a>
-          </div>
-        </div>
-      </motion.footer>
     </div>
   );
 }
