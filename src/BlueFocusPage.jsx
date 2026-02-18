@@ -207,6 +207,86 @@ export default function BlueFocusPage() {
       {/* Main Content */}
       <div className="relative z-10 px-4 py-8 sm:py-12">
         <div className="max-w-4xl mx-auto space-y-8">
+          {/* Badge - Only show if not in quiz */}
+          {!showCongrats && content?.urgency?.badge && quizStep === 0 && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-center"
+            >
+              <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-300 rounded-full px-4 py-2 shadow-lg">
+                <Sparkles className="w-4 h-4 text-blue-600 animate-pulse" />
+                <span className="text-sm font-bold text-blue-800">
+                  {content.urgency.badge}
+                </span>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Hero Section with Image - Show first before quiz */}
+          {!showCongrats && quizStep === 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center space-y-6"
+            >
+              {/* Hero Image */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2, type: "spring" }}
+                whileHover={{ scale: 1.05, rotate: 2 }}
+                className="relative mx-auto w-48 h-48 sm:w-64 sm:h-64 rounded-full overflow-hidden shadow-2xl border-4 border-blue-200 cursor-pointer"
+              >
+                <img
+                  src={content?.hero?.image || agent}
+                  alt="Hero"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.src = agent;
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent"></div>
+                
+                {/* Floating Checkmark */}
+                <motion.div
+                  animate={{
+                    y: [0, -10, 0],
+                    rotate: [0, 10, 0],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-lg"
+                >
+                  <CheckCircle2 className="w-5 h-5 text-green-600" />
+                </motion.div>
+              </motion.div>
+
+              {/* Title & Description */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="space-y-4"
+              >
+                <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 leading-tight">
+                  {content?.hero?.title || "Save Up To $600 Per Year"}
+                </h2>
+                <p className="text-xl sm:text-2xl text-gray-700 font-semibold">
+                  {content?.hero?.subtitle || "On Your Auto Insurance"}
+                </p>
+                {content?.hero?.description && (
+                  <p className="text-base sm:text-lg text-gray-600 font-medium">
+                    {content.hero.description}
+                  </p>
+                )}
+              </motion.div>
+            </motion.div>
+          )}
+
           {/* Quiz Section */}
           {!showCongrats && content?.quiz && (
             <AnimatePresence mode="wait">
@@ -335,85 +415,6 @@ export default function BlueFocusPage() {
             </motion.div>
           )}
 
-          {/* Badge - Only show if not in quiz */}
-          {!showCongrats && content?.urgency?.badge && quizStep === 0 && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-center"
-            >
-              <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-300 rounded-full px-4 py-2 shadow-lg">
-                <Sparkles className="w-4 h-4 text-blue-600 animate-pulse" />
-                <span className="text-sm font-bold text-blue-800">
-                  {content.urgency.badge}
-                </span>
-              </div>
-            </motion.div>
-          )}
-
-          {/* Hero Section with Image - Only show if not in quiz/congrats */}
-          {!showCongrats && quizStep === 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center space-y-6"
-            >
-              {/* Hero Image */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2, type: "spring" }}
-                whileHover={{ scale: 1.05, rotate: 2 }}
-                className="relative mx-auto w-48 h-48 sm:w-64 sm:h-64 rounded-full overflow-hidden shadow-2xl border-4 border-blue-200 cursor-pointer"
-              >
-                <img
-                  src={content?.hero?.image || agent}
-                  alt="Hero"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.src = agent;
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent"></div>
-                
-                {/* Floating Checkmark */}
-                <motion.div
-                  animate={{
-                    y: [0, -10, 0],
-                    rotate: [0, 10, 0],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-lg"
-                >
-                  <CheckCircle2 className="w-5 h-5 text-green-600" />
-                </motion.div>
-              </motion.div>
-
-              {/* Title & Description */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="space-y-4"
-              >
-                <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 leading-tight">
-                  {content?.hero?.title || "Save Up To $600 Per Year"}
-                </h2>
-                <p className="text-xl sm:text-2xl text-gray-700 font-semibold">
-                  {content?.hero?.subtitle || "On Your Auto Insurance"}
-                </p>
-                {content?.hero?.description && (
-                  <p className="text-base sm:text-lg text-gray-600 font-medium">
-                    {content.hero.description}
-                  </p>
-                )}
-              </motion.div>
-            </motion.div>
-          )}
 
           {/* Comparison Table Section - Show after congrats */}
           {showCongrats && content?.table && (
