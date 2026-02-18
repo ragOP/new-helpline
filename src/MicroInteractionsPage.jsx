@@ -10,7 +10,19 @@ export default function MicroInteractionsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [hoveredStat, setHoveredStat] = useState(null);
+  const [tappedStat, setTappedStat] = useState(null);
   const [clicked, setClicked] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Fetch content on component mount
   useEffect(() => {
@@ -177,7 +189,9 @@ export default function MicroInteractionsPage() {
             >
               <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-4 py-2">
                 <Sparkles className="w-4 h-4 text-white animate-pulse" />
-                <span className="text-sm font-bold text-white">Tap to Interact</span>
+                <span className="text-sm font-bold text-white">
+                  {isMobile ? "👆 Tap Cards to See Magic" : "Tap to Interact"}
+                </span>
               </div>
             </motion.div>
 
@@ -186,9 +200,9 @@ export default function MicroInteractionsPage() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, type: "spring" }}
-              whileHover={{ scale: 1.05, rotate: 2 }}
+              whileHover={!isMobile ? { scale: 1.05, rotate: 2 } : {}}
               whileTap={{ scale: 0.95 }}
-              className="relative mx-auto w-48 h-48 sm:w-64 sm:h-64 rounded-full overflow-hidden shadow-2xl border-4 border-white/30 cursor-pointer"
+              className="relative mx-auto w-full max-w-md h-40 sm:max-w-2xl sm:h-56 md:max-w-3xl md:h-64 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/30 cursor-pointer touch-manipulation"
             >
               <img
                 src={content?.hero?.image || agent}
@@ -238,60 +252,179 @@ export default function MicroInteractionsPage() {
             </motion.p>
           </motion.div>
 
+          {/* Mobile Instruction Banner */}
+          {isMobile && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="bg-white/15 backdrop-blur-sm border border-white/30 rounded-xl p-4 text-center"
+            >
+              <p className="text-white text-sm font-semibold flex items-center justify-center gap-2">
+                <Zap className="w-4 h-4" />
+                Tap any card below to see animated effects!
+              </p>
+            </motion.div>
+          )}
+
           {/* Interactive Stats - Mobile Optimized */}
           {content?.stats && (
             <div className="grid grid-cols-2 gap-4">
               {content.stats.map((stat, index) => {
                 const Icon = stat.icon;
+                const isActive = isMobile ? tappedStat === index : hoveredStat === index;
+                
+                // Stagger animation: each card comes from different direction
+                const directions = [
+                  { x: -100, y: -50 }, // Top-left
+                  { x: 100, y: -50 },  // Top-right
+                  { x: -100, y: 50 },  // Bottom-left
+                  { x: 100, y: 50 }    // Bottom-right
+                ];
+                const direction = directions[index] || { x: 0, y: 0 };
+                
                 return (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.5 + index * 0.1 }}
-                    whileHover={{ 
+                    initial={{ 
+                      opacity: 0, 
+                      scale: 0.3,
+                      x: direction.x,
+                      y: direction.y,
+                      rotate: -180
+                    }}
+                    animate={{ 
+                      opacity: 1, 
+                      scale: 1,
+                      x: 0,
+                      y: 0,
+                      rotate: 0
+                    }}
+                    transition={{ 
+                      delay: 0.7 + index * 0.25,
+                      type: "spring",
+                      stiffness: 100,
+                      damping: 15,
+                      mass: 0.8
+                    }}
+                    whileHover={!isMobile ? { 
                       scale: 1.05,
                       y: -5,
-                    }}
+                    } : {}}
                     whileTap={{ 
                       scale: 0.95,
                       rotate: [0, -5, 5, 0]
                     }}
-                    onHoverStart={() => setHoveredStat(index)}
-                    onHoverEnd={() => setHoveredStat(null)}
+                    onHoverStart={() => !isMobile && setHoveredStat(index)}
+                    onHoverEnd={() => !isMobile && setHoveredStat(null)}
+                    onTap={() => {
+                      if (isMobile) {
+                        setTappedStat(index);
+                        setTimeout(() => setTappedStat(null), 2000);
+                      }
+                    }}
                     className="bg-white/10 backdrop-blur-sm border-2 border-white/20 rounded-2xl p-6 cursor-pointer relative overflow-hidden group touch-manipulation"
                   >
+                    {/* Mobile: Pulsing indicator */}
+                    {isMobile && (
+                      <motion.div
+                        animate={{
+                          scale: [1, 1.1, 1],
+                          opacity: [0.3, 0.5, 0.3],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                        className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-20 rounded-2xl`}
+                      />
+                    )}
+                    
                     {/* Animated Background */}
                     <motion.div
                       initial={{ scale: 0, opacity: 0 }}
-                      animate={hoveredStat === index ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-                      className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-20`}
+                      animate={isActive ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-30`}
                     />
+                    
+                    {/* Mobile: Tap indicator badge */}
+                    {isMobile && tappedStat !== index && (
+                      <motion.div
+                        animate={{
+                          y: [0, -3, 0],
+                        }}
+                        transition={{
+                          duration: 1.5,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                        className="absolute top-2 right-2 bg-white/20 backdrop-blur-sm rounded-full px-2 py-1"
+                      >
+                        <Zap className="w-3 h-3 text-white" />
+                      </motion.div>
+                    )}
                     
                     <div className="relative z-10 text-center">
                       <motion.div
-                        animate={hoveredStat === index ? { 
-                          rotate: 360,
-                          scale: 1.2
-                        } : { 
+                        initial={{ opacity: 0, scale: 0, rotate: -180 }}
+                        animate={{ 
+                          opacity: 1, 
+                          scale: 1, 
                           rotate: 0,
-                          scale: 1
+                          ...(isActive ? { 
+                            rotate: 360,
+                            scale: 1.2
+                          } : {})
                         }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ 
+                          delay: 0.7 + index * 0.25 + 0.2,
+                          type: "spring",
+                          stiffness: 150,
+                          damping: 12
+                        }}
                         className={`w-14 h-14 mx-auto mb-3 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center shadow-lg`}
                       >
                         <Icon className="w-7 h-7 text-white" />
                       </motion.div>
                       <motion.div
-                        animate={hoveredStat === index ? { scale: 1.2 } : { scale: 1 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ 
+                          opacity: 1, 
+                          y: 0,
+                          ...(isActive ? { scale: 1.2 } : { scale: 1 })
+                        }}
+                        transition={{ 
+                          delay: 0.7 + index * 0.25 + 0.3,
+                          type: "spring",
+                          stiffness: 100
+                        }}
                         className="text-3xl sm:text-4xl font-black text-white mb-1"
                       >
                         {stat.value}
                       </motion.div>
-                      <div className="text-sm font-semibold text-white/80">
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ 
+                          delay: 0.7 + index * 0.25 + 0.4
+                        }}
+                        className="text-sm font-semibold text-white/80"
+                      >
                         {stat.label}
-                      </div>
+                      </motion.div>
                     </div>
+                    
+                    {/* Mobile: Ripple effect on tap */}
+                    {isMobile && tappedStat === index && (
+                      <motion.div
+                        initial={{ scale: 0, opacity: 1 }}
+                        animate={{ scale: 2, opacity: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className={`absolute inset-0 bg-gradient-to-br ${stat.color} rounded-2xl`}
+                      />
+                    )}
                   </motion.div>
                 );
               })}
