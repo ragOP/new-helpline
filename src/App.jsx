@@ -30,6 +30,7 @@ import BlueFocusPage from './BlueFocusPage';
 import YellowFocusPage from './YellowFocusPage';
 import EditorialPage from './EditorialPage';
 import FormDocPage from './FormDocPage';
+import SavingsQuiz from './SavingsQuiz';
 
 const App = () => {
   
@@ -58,6 +59,7 @@ const App = () => {
         <Route path="/yellow-focus" element={<YellowFocusPage />} />
         <Route path="/editorial" element={<EditorialPage />} />
         <Route path="/form-doc" element={<FormDocPage />} />
+        <Route path="/quiz" element={<SavingsQuiz />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         {/* <Route path="/engsf2200" element={<ChatbotTwo />} />
